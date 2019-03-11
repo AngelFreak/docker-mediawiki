@@ -38,7 +38,7 @@ $wgHashedUploadDirectory = true;
 
 $wgAllowExternalImages = true;
 $wgFileExtensions = array( 'png', 'gif', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'swf', 'gz', 'odt', 'ods', 'odp', 'odg' );
-$wgVerifyMimeType = false;
+$wgVerifyMimeType = true;
 
 wfLoadExtension( 'VisualEditor' );
 
