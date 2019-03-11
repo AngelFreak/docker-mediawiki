@@ -65,8 +65,10 @@ $wgVirtualRestConfig['modules']['parsoid'] = array(
     'prefix' => 'localhost'
 );
 ```
-Copy the LocalSettings.php into the container: docker cp LocalSettings.php wiki_mediawiki_1:/var/www/html/
-
+Copy the LocalSettings.php into the container
+```
+docker cp LocalSettings.php wiki_mediawiki_1:/var/www/html/
+```
 Recreate the container
 ```
 docker-compose -p wiki up -d --force-recreate
