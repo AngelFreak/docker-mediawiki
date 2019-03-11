@@ -1,0 +1,52 @@
+# MediaWiki with parasoid, and VisualEditor
+#
+# Access via "http://localhost:8080"
+#   (or "http://$(docker-machine ip):8080" if using docker-machine)
+version: '3'
+services:
+  mediawiki:
+    image: mediawiki:1.32.0
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - mediawiki_images:/var/www/html/images
+      - mediawiki_conf:/var/www/html/
+      - mediawiki_plugins:/var/www/html/extensions
+    links:
+      - parsoid
+      - database
+    networks:
+      - wiki_frontend
+      - wiki_backend
+
+  parsoid:
+    image: thenets/parsoid:0.10.0
+    restart: always
+    environment:
+      - PARSOID_DOMAIN_localhost=http://mediawiki:80/api.php
+    networks:
+      - wiki_backend
+
+  database:
+    image: mariadb
+    restart: always
+    volumes:
+      - mediawiki_db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: my_wiki
+      MYSQL_USER: wikiuser
+      MYSQL_PASSWORD: example
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    networks:
+      - wiki_backend
+
+volumes:
+  mediawiki_images:
+  mediawiki_conf:
+  mediawiki_plugins:
+  mediawiki_db:
+
+networks:
+  wiki_frontend:
+  wiki_backend:
